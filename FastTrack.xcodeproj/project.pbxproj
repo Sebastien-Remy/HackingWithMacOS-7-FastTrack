@@ -12,6 +12,7 @@
 		96E9B75A29058FA500F86883 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96E9B75929058FA500F86883 /* Assets.xcassets */; };
 		96E9B75D29058FA500F86883 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96E9B75C29058FA500F86883 /* Preview Assets.xcassets */; };
 		96E9B7652905990C00F86883 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E9B7642905990C00F86883 /* Track.swift */; };
+		96E9B7672905B2D400F86883 /* TrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E9B7662905B2D400F86883 /* TrackView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		96E9B75C29058FA500F86883 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		96E9B75E29058FA500F86883 /* FastTrack.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FastTrack.entitlements; sourceTree = "<group>"; };
 		96E9B7642905990C00F86883 /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
+		96E9B7662905B2D400F86883 /* TrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 		96E9B75429058FA400F86883 /* FastTrack */ = {
 			isa = PBXGroup;
 			children = (
+				96E9B7662905B2D400F86883 /* TrackView.swift */,
 				96E9B75529058FA400F86883 /* FastTrackApp.swift */,
 				96E9B75729058FA400F86883 /* ContentView.swift */,
 				96E9B7642905990C00F86883 /* Track.swift */,
@@ -144,6 +147,7 @@
 			files = (
 				96E9B7652905990C00F86883 /* Track.swift in Sources */,
 				96E9B75829058FA400F86883 /* ContentView.swift in Sources */,
+				96E9B7672905B2D400F86883 /* TrackView.swift in Sources */,
 				96E9B75629058FA400F86883 /* FastTrackApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

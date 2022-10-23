@@ -30,8 +30,7 @@ struct ContentView: View {
             ScrollView {
                 LazyVGrid(columns: gridItems) {
                     ForEach(tracks) { track in
-                        Text(track.trackName)
-                            .frame(width: 150, height: 150)
+                        TrackView(track: track)
                     }
                 }
             }
