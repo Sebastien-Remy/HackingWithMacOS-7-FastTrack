@@ -1,3 +1,5 @@
+
+
 //
 //  ContentView.swift
 //  FastTrack
@@ -8,14 +10,31 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    let gridItems: [GridItem] = [
+        GridItem(.adaptive(minimum: 150, maximum: 200)),
+    ]
+    
+    @AppStorage("searchText") var searchText = ""
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            HStack {
+                TextField("Search for a song", text: $searchText)
+                Button("Search") {
+                }
+            }
+            
+            ScrollView {
+                LazyVGrid(columns: gridItems) {
+                    ForEach(1..<100) {
+                        i in
+                        Color.red
+                            .frame(width: 150, height: 150)
+                    }
+                }
+            }
         }
-        .padding()
     }
 }
 
