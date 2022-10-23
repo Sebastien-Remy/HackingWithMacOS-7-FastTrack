@@ -8,6 +8,7 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct ContentView: View {
     
@@ -16,6 +17,8 @@ struct ContentView: View {
     ]
     
     @AppStorage("searchText") var searchText = ""
+    @State private var audioPlayer: AVPlayer?
+    
     
     @State private var tracks = [Track]()
     
@@ -30,10 +33,16 @@ struct ContentView: View {
             ScrollView {
                 LazyVGrid(columns: gridItems) {
                     ForEach(tracks) { track in
-                        TrackView(track: track)
+                        TrackView(track: track, onSelected: play)
                     }
                 }
             }
+        }
+    }
+    
+    func startSearch() {
+        Task {
+            try await performSearch()
         }
     }
     
@@ -45,10 +54,10 @@ struct ContentView: View {
         
     }
     
-    func startSearch() {
-        Task {
-            try await performSearch()
-        }
+    func play(_ track: Track) {
+        audioPlayer?.pause()
+        audioPlayer = AVPlayer(url: track.previewUrl)
+        audioPlayer?.play()
     }
 }
 
