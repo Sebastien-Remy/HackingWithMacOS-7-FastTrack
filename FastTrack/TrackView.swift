@@ -12,6 +12,8 @@ struct TrackView: View {
     let track: Track
     let onSelected: (Track) -> Void
     
+    @State private var isHovering = false
+    
     var body: some View {
         Button {
             onSelected(track)
@@ -21,6 +23,7 @@ struct TrackView: View {
                     switch phase {
                     case .success(let image):
                         image.resizable()
+                            .scaleEffect(isHovering ? 1.2 : 1.0)
                     case .failure(_):
                         Image(systemName: "questionmark")
                             .symbolVariant(.circle)
@@ -32,8 +35,10 @@ struct TrackView: View {
                 .frame(width: 150, height: 150)
                 VStack {
                     Text(track.trackName)
+                        .lineLimit(2)
                         .font(.headline)
                     Text(track.artistName)
+                        .lineLimit(2)
                         .foregroundStyle(.secondary)
                 }
                 .padding(5)
@@ -42,6 +47,11 @@ struct TrackView: View {
             }
         }
         .buttonStyle(.borderless)
+        .onHover { s in
+            withAnimation {
+                isHovering = s
+            }
+        }
     }
     
 
