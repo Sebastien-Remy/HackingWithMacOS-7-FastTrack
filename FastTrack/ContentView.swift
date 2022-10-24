@@ -25,18 +25,28 @@ struct ContentView: View {
     @State private var audioPlayer: AVPlayer?
     
     @State private var searchState = SearchState.none
-    
-    
     @State private var tracks = [Track]()
+    @State private var searchList = [SearchTerm]()
+    @State private var selectedSearch: SearchTerm?
     
     var body: some View {
-        VStack {
-            HStack {
-                TextField("Search for a song", text: $searchText)
-                    .onSubmit(startSearch)
-                Button("Search", action: startSearch)
+        NavigationView {
+            
+            List(searchList, selection: $selectedSearch) { search in
+                Text(search.terms)
+                    .tag(search)
+                    .contextMenu {
+                        Button("Remove", role: .destructive) {
+                            delete(search)
+                        }
+                    }
             }
-            .padding([.top, .horizontal])
+            .onDeleteCommand {
+                guard let selectedSearch = selectedSearch else { return }
+                delete(selectedSearch)
+            }
+            .frame(minWidth: 150)
+            
             
             switch searchState {
             case .none:
@@ -59,6 +69,16 @@ struct ContentView: View {
                     .frame(maxHeight: .infinity)
             }
         }
+        .searchable(text: $searchText, placement: .sidebar)
+        .navigationTitle("Fast Track")
+        .frame(minWidth: 480, minHeight: 320)
+        .onSubmit (of: .search) {
+            startSearch()
+        }
+        .onChange(of: selectedSearch) { search in
+            searchText = search?.terms ?? ""
+            startSearch()
+        }
     }
     
     func startSearch() {
@@ -74,12 +94,26 @@ struct ContentView: View {
     }
     
     func performSearch() async throws {
-        guard let searchText = searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
-        guard let url = URL(string: "https://itunes.apple.com/search?term=\(searchText)&limit=100&entity=song") else { return }
+        guard let searchingText = searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
+        guard let url = URL(string: "https://itunes.apple.com/search?term=\(searchingText)&limit=100&entity=song") else { return }
         let (data, _) =  try await URLSession.shared.data(from: url)
         let searchResult = try JSONDecoder().decode(SearchResult.self, from: data)
         tracks = searchResult.results
         
+        let newTerm = SearchTerm(terms: searchText)
+        if let existingTerm = searchList.first(where: {term in return term == newTerm}) {
+            selectedSearch = existingTerm
+        } else {
+            searchList.append(newTerm)
+            selectedSearch = newTerm
+            searchText = ""
+        }
+        
+    }
+    
+    func delete(_ search: SearchTerm) {
+        guard let index = searchList.firstIndex(of: search) else { return }
+        searchList.remove(at: index)
     }
     
     func play(_ track: Track) {
